@@ -40,5 +40,70 @@ CHIP ALU {
         ng;      // (out < 0,  1, 0)
 
     PARTS:
-    //// Replace this comment with your code.
+    Mux16 (a=x, b=false, sel=zx, out=xAfterzx);
+
+    Not16 (in=xAfterzx, out=NotxAfterzx);
+    Mux16 (a=xAfterzx, b=NotxAfterzx, sel=nx, out=xAfternx);
+
+    Mux16 (a=y, b=false, sel=zy, out=yAfterzy);
+    Not16 (in=yAfterzy, out=NotyAfterzy);
+    Mux16 (a=yAfterzy, b=NotyAfterzy, sel=ny, out=yAfterny);
+
+    Add16 (a=xAfternx, b=yAfterny, out=xAddy);
+    And16 (a=xAfternx, b=yAfterny, out=xAndy);
+    Mux16 (a=xAndy, b=xAddy, sel=f, out=outAfterf);
+
+    Not16 (in=outAfterf, out=NotoutAfterf);
+    Mux16 (a=outAfterf, b=NotoutAfterf, sel=no,
+           out[0]=out0, 
+           out[1]=out1,
+           out[2]=out2,
+           out[3]=out3,
+           out[4]=out4,
+           out[5]=out5,
+           out[6]=out6,
+           out[7]=out7,
+           out[8]=out8, 
+           out[9]=out9,
+           out[10]=out10,
+           out[11]=out11,
+           out[12]=out12,
+           out[13]=out13,
+           out[14]=out14,
+           out[15]=outLast, out=out);
+
+    And  (a=true, b=outLast, out=ng);
+
+    Not  (in=out0, out=Notout0);
+    Not  (in=out1, out=Notout1);
+    Not  (in=out2, out=Notout2);
+    Not  (in=out3, out=Notout3);
+    Not  (in=out4, out=Notout4);
+    Not  (in=out5, out=Notout5);
+    Not  (in=out6, out=Notout6);
+    Not  (in=out7, out=Notout7);
+    Not  (in=out8, out=Notout8);
+    Not  (in=out9, out=Notout9);
+    Not  (in=out10, out=Notout10);
+    Not  (in=out11, out=Notout11);
+    Not  (in=out12, out=Notout12);
+    Not  (in=out13, out=Notout13);
+    Not  (in=out14, out=Notout14);
+    Not  (in=outLast, out=NotoutLast);
+
+    And (a=Notout0, b=Notout1, out=p1);
+    And (a=p1, b=Notout2, out=p2);
+    And (a=p2, b=Notout3, out=p3);
+    And (a=p3, b=Notout4, out=p4);
+    And (a=p4, b=Notout5, out=p5);
+    And (a=p5, b=Notout6, out=p6);
+    And (a=p6, b=Notout7, out=p7);
+    And (a=p7, b=Notout8, out=p8);
+    And (a=p8, b=Notout9, out=p9);
+    And (a=p9, b=Notout10, out=p10);
+    And (a=p10, b=Notout11, out=p11);
+    And (a=p11, b=Notout12, out=p12);
+    And (a=p12, b=Notout13, out=p13);
+    And (a=p13, b=Notout14, out=p14);
+    And (a=p14, b=NotoutLast, out=zr);
 }
